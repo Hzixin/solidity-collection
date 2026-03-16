@@ -45,6 +45,20 @@ Features:
 - linear reward streaming over time
 - proportional multi-user reward accounting
 
+### Yield Vault
+
+Core files:
+
+- `src/YieldVault.sol`
+- `script/DeployYieldVault.s.sol`
+
+Features:
+
+- ERC4626-based vault shares
+- deposit cap risk control
+- withdrawal cooldown
+- simulated yield harvest for local strategy testing
+
 ### Flash Loan And Liquidation Example
 
 Core files:
@@ -73,6 +87,7 @@ Test files:
 - `test/LendingEngine.t.sol`
 - `test/SimpleAMM.t.sol`
 - `test/StakingRewards.t.sol`
+- `test/YieldVault.t.sol`
 - `test/LiquidationOperator.t.sol`
 - `test/invariant/LendingEngineInvariant.t.sol`
 
@@ -81,6 +96,7 @@ Covered areas:
 - lending protocol mint, redeem, liquidation, and health checks
 - AMM liquidity and swap behavior
 - staking reward accrual and distribution
+- vault deposits, cooldown controls, and share price appreciation after harvest
 - flash loan plus liquidation integration
 - invariant checks for debt and healthy-position constraints
 
@@ -90,7 +106,7 @@ Current result:
 forge test -vv
 ```
 
-At the time of writing, the suite passes with `18/18` tests.
+At the time of writing, the suite passes with `22/22` tests.
 
 ## Local Usage
 
@@ -133,6 +149,15 @@ Deploy the full demo:
 
 ```bash
 forge script script/DeployDefiPortfolio.s.sol:DeployDefiPortfolio \
+  --rpc-url http://127.0.0.1:8545 \
+  --private-key <ANVIL_PRIVATE_KEY> \
+  --broadcast
+```
+
+Deploy the yield vault demo:
+
+```bash
+forge script script/DeployYieldVault.s.sol:DeployYieldVault \
   --rpc-url http://127.0.0.1:8545 \
   --private-key <ANVIL_PRIVATE_KEY> \
   --broadcast
